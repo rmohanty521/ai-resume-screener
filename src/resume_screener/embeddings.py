@@ -6,10 +6,15 @@ Voyage tunes separately for better retrieval.
 
 from __future__ import annotations
 
+import logging
+import time
 from dataclasses import dataclass
 from typing import Sequence
 
 import voyageai
+from voyageai.error import RateLimitError
+
+log = logging.getLogger(__name__)
 
 # Voyage accepts up to 1,000 texts per request; smaller batches keep each
 # request well under the per-request token limit for long resumes.
@@ -34,17 +39,32 @@ class Embedder:
         self.model = model
         self.dimension = dimension
 
+    def _embed_batch(self, batch: list[str], input_type: str, max_attempts: int = 8):
+        """One request, waiting out rate limits.
+
+        Voyage's free tier (no payment method) allows only 3 requests/min and
+        10K tokens/min, so waits are long enough to clear a full minute window.
+        """
+        for attempt in range(1, max_attempts + 1):
+            try:
+                return self.client.embed(
+                    batch,
+                    model=self.model,
+                    input_type=input_type,
+                    output_dimension=self.dimension,
+                )
+            except RateLimitError:
+                if attempt == max_attempts:
+                    raise
+                wait = min(20 * attempt, 65)
+                log.warning("Voyage rate limit; retrying in %ss (attempt %s)", wait, attempt)
+                time.sleep(wait)
+
     def _embed(self, texts: Sequence[str], input_type: str) -> EmbedResult:
         vectors: list[list[float]] = []
         tokens = 0
         for i in range(0, len(texts), BATCH_SIZE):
-            batch = list(texts[i : i + BATCH_SIZE])
-            res = self.client.embed(
-                batch,
-                model=self.model,
-                input_type=input_type,
-                output_dimension=self.dimension,
-            )
+            res = self._embed_batch(list(texts[i : i + BATCH_SIZE]), input_type)
             vectors.extend(res.embeddings)
             tokens += res.total_tokens
         if any(len(v) != self.dimension for v in vectors):
