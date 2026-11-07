@@ -9,10 +9,10 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+from collections.abc import Callable, Iterable
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable, Iterable
 
 from .dataset import RawResume
 from .parser import ParseResult, ResumeParser
@@ -112,7 +112,7 @@ def parse_batch(
             raw = futures[fut]
             try:
                 result = fut.result()
-            except Exception as exc:  # keep going; one bad resume shouldn't stop the batch
+            except Exception as exc:  # noqa: BLE001 - one bad resume shouldn't stop the batch
                 log.warning("Failed to parse %s: %s", raw.resume_id, exc)
                 stats.failed[raw.resume_id] = str(exc)
             else:

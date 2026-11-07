@@ -8,7 +8,6 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 
-
 # --- Parsed by Claude from raw resume text ---------------------------------
 
 

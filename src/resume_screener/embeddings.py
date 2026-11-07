@@ -8,8 +8,8 @@ from __future__ import annotations
 
 import logging
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
 
 import voyageai
 from voyageai.error import RateLimitError

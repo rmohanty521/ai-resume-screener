@@ -1,0 +1,42 @@
+[
+  {
+    "job_id": "acct-senior",
+    "title": "Senior Accountant",
+    "description": "Own month-end close, account reconciliations and journal entries under GAAP. Prepare financial statements and support audits. 4+ years of accounting experience; CPA preferred. Strong Excel; QuickBooks or an ERP such as SAP or Oracle."
+  },
+  {
+    "job_id": "hr-generalist",
+    "title": "HR Generalist",
+    "description": "Run recruiting, onboarding, benefits administration and employee relations for a 300-person company. Maintain HRIS records and ensure compliance with labor law (FMLA, ADA, EEO). 3+ years in HR; PHR or SHRM-CP a plus."
+  },
+  {
+    "job_id": "it-sysadmin",
+    "title": "IT Systems Administrator",
+    "description": "Administer Windows Server, Active Directory and Microsoft 365. Manage networking (TCP/IP, VPN, firewalls), backups and endpoint security. Provide tier-2 help desk support. 3+ years in IT operations; CompTIA or Microsoft certifications preferred."
+  },
+  {
+    "job_id": "sales-ae",
+    "title": "B2B Account Executive",
+    "description": "Own a quota for new-business sales to mid-market companies. Prospect, run demos, negotiate and close. Manage pipeline in Salesforce. 3+ years of B2B sales with a record of meeting or exceeding quota."
+  },
+  {
+    "job_id": "teacher-elem",
+    "title": "Elementary School Teacher",
+    "description": "Teach a grade 3-5 classroom: plan standards-aligned lessons, differentiate instruction, assess progress and communicate with parents. State teaching certification required; classroom management experience expected."
+  },
+  {
+    "job_id": "chef-exec",
+    "title": "Executive Chef",
+    "description": "Lead kitchen operations for a high-volume restaurant: menu development, food costing, ordering and inventory, and food safety (ServSafe). Hire, train and schedule kitchen staff. 5+ years in professional kitchens with supervisory experience."
+  },
+  {
+    "job_id": "designer-graphic",
+    "title": "Graphic Designer",
+    "description": "Create brand, marketing and digital assets: social graphics, print collateral, presentations and web visuals. Expert in Adobe Creative Suite (Photoshop, Illustrator, InDesign); Figma a plus. Portfolio required; 2+ years of design experience."
+  },
+  {
+    "job_id": "health-admin",
+    "title": "Healthcare Operations Coordinator",
+    "description": "Coordinate clinic operations: patient scheduling, insurance verification, medical records (EHR) and HIPAA compliance. Work with physicians and nursing staff to improve patient flow. 3+ years in a healthcare setting; medical terminology required."
+  }
+]

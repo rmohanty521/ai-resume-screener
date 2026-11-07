@@ -34,7 +34,7 @@ class Settings:
     vector_index: str
 
     @classmethod
-    def from_env(cls) -> "Settings":
+    def from_env(cls) -> Settings:
         load_dotenv()
         return cls(
             anthropic_api_key=_require("ANTHROPIC_API_KEY"),

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 import certifi
 from pymongo import MongoClient, ReplaceOne
@@ -34,7 +34,7 @@ class ResumeRepository:
         self.col = collection
 
     @classmethod
-    def from_settings(cls, settings) -> "ResumeRepository":
+    def from_settings(cls, settings) -> ResumeRepository:
         client = connect(settings.mongodb_uri)
         return cls(client[settings.mongodb_db][settings.resumes_collection])
 

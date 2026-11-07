@@ -33,6 +33,7 @@ def build_pipeline(
     limit: int,
     num_candidates: int,
     category: str | None = None,
+    resume_ids: list[str] | None = None,
 ) -> list[dict]:
     search: dict = {
         "index": index,
@@ -42,8 +43,13 @@ def build_pipeline(
         "numCandidates": num_candidates,
         "limit": limit,
     }
+    filters = []
     if category:
-        search["filter"] = {"category": category}
+        filters.append({"category": category})
+    if resume_ids is not None:
+        filters.append({"resume_id": {"$in": resume_ids}})
+    if filters:
+        search["filter"] = filters[0] if len(filters) == 1 else {"$and": filters}
     return [
         {"$vectorSearch": search},
         {
@@ -65,11 +71,20 @@ class Retriever:
         self.index = index
 
     def search(
-        self, job: JobDescription, limit: int = 10, category: str | None = None
+        self,
+        job: JobDescription,
+        limit: int = 10,
+        category: str | None = None,
+        resume_ids: list[str] | None = None,
     ) -> RetrievalResult:
         vector, tokens = self.embedder.embed_query(job_query_text(job))
         pipeline = build_pipeline(
-            vector, self.index, limit, num_candidates=max(limit * 15, 100), category=category
+            vector,
+            self.index,
+            limit,
+            num_candidates=max(limit * 15, 100),
+            category=category,
+            resume_ids=resume_ids,
         )
         resumes = []
         for row in self.col.aggregate(pipeline):

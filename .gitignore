@@ -14,3 +14,4 @@ data/raw/
 data/cache/
 *.csv
 !data/benchmark/*.csv
+data/metrics/

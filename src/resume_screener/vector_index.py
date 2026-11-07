@@ -10,7 +10,8 @@ from pymongo.operations import SearchIndexModel
 
 
 def index_definition(dimensions: int, similarity: str = "cosine") -> dict:
-    """Vector field plus a `category` filter so searches can be narrowed by field."""
+    """Vector field plus filters: `category` (narrow by field) and `resume_id`
+    (restrict search to a fixed pool, used by the benchmark)."""
     return {
         "fields": [
             {
@@ -20,6 +21,7 @@ def index_definition(dimensions: int, similarity: str = "cosine") -> dict:
                 "similarity": similarity,
             },
             {"type": "filter", "path": "category"},
+            {"type": "filter", "path": "resume_id"},
         ]
     }
 
