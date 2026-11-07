@@ -12,6 +12,7 @@ dependencies = [
     "anthropic>=1.0",
     "voyageai>=0.3",
     "pymongo>=4.8",
+    "certifi>=2024.2.2",
     "pydantic>=2.7",
     "python-dotenv>=1.0",
     "typer>=0.12",

@@ -22,7 +22,16 @@ Deduplicate and use common names (e.g. "PostgreSQL", not "postgres db").
 - The summary must be neutral and must not mention name, age, gender or ethnicity."""
 
 # Fall back to another model if Claude declines a request (rare for resumes).
+# Only some models support server-side fallback; Haiku does not.
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
+FALLBACK_MODELS = {"claude-fable-5-1", "claude-opus-5-5", "claude-opus-5", "claude-sonnet-5-5"}
+
+
+def fallback_kwargs(model: str) -> dict:
+    """Request params that enable refusal fallback, if the model supports it."""
+    if model in FALLBACK_MODELS:
+        return {"betas": [FALLBACK_BETA], "fallbacks": "default"}
+    return {}
 
 
 class ParseError(RuntimeError):
@@ -43,7 +52,7 @@ class ResumeParser:
     def __init__(
         self,
         client: anthropic.Anthropic | None = None,
-        model: str = "claude-opus-5-5",
+        model: str = "claude-haiku-5-5",
         effort: str = "low",
         max_chars: int | None = 12_000,
     ) -> None:
@@ -65,8 +74,7 @@ class ResumeParser:
             messages=[{"role": "user", "content": f"<resume>\n{text}\n</resume>"}],
             output_format=ParsedResume,
             output_config={"effort": self.effort},
-            betas=[FALLBACK_BETA],
-            fallbacks="default",
+            **fallback_kwargs(self.model),
         )
         latency = time.perf_counter() - start
 

@@ -23,7 +23,8 @@ def _require(name: str) -> str:
 @dataclass(frozen=True)
 class Settings:
     anthropic_api_key: str
-    claude_model: str
+    claude_model: str  # fit scoring (needs judgment)
+    parse_model: str  # resume extraction (simple, high volume)
     voyage_api_key: str
     embed_model: str
     embed_dim: int
@@ -38,6 +39,7 @@ class Settings:
         return cls(
             anthropic_api_key=_require("ANTHROPIC_API_KEY"),
             claude_model=os.getenv("CLAUDE_MODEL", "claude-opus-5-5"),
+            parse_model=os.getenv("PARSE_MODEL", "claude-haiku-5-5"),
             voyage_api_key=_require("VOYAGE_API_KEY"),
             embed_model=os.getenv("EMBED_MODEL", "voyage-3.5"),
             embed_dim=int(os.getenv("EMBED_DIM", "1024")),
