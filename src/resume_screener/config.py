@@ -38,7 +38,7 @@ class Settings:
         load_dotenv()
         return cls(
             anthropic_api_key=_require("ANTHROPIC_API_KEY"),
-            claude_model=os.getenv("CLAUDE_MODEL", "claude-opus-5-5"),
+            claude_model=os.getenv("CLAUDE_MODEL", "claude-haiku-5-5"),
             parse_model=os.getenv("PARSE_MODEL", "claude-haiku-5-5"),
             voyage_api_key=_require("VOYAGE_API_KEY"),
             embed_model=os.getenv("EMBED_MODEL", "voyage-3.5"),
